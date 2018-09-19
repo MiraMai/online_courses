@@ -1,0 +1,118 @@
+.btn {
+    // this is for the button without a link or visited pseudo class
+    &,
+    /* link(the pseudo element) is a special state of our element */
+    &:link, 
+    &:visited {
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 1.5rem 4rem;
+        display: inline-block;
+        border-radius: 10rem;
+        /* all the properties are animated */
+        transition: all .2s;
+        /* this has to be relative because the layer that we created with the ::after
+        pseudo element has to reference to it */
+        position: relative;
+        font-size: $default-font-size;
+
+        // change for the button inside of the form element
+        border: none;
+        cursor: pointer;
+    }
+
+    &:hover {
+        transform: translateY(-0.3rem);
+        box-shadow: 0 1rem 2rem rgba($color-black, .2 );
+
+        /* when we hover over th&the ::after layer will grow and fade out */
+        &::after {
+            transform: scaleX(1.4) scaleY(1.6);
+            /* opacity 0 is the trick for fading smth out.
+            SOS!!! this works only because we have the transition property on the 
+            btn(line 192) */
+            opacity: 0;
+        }
+    }
+
+    &:active,
+    &:focus  {
+        outline: none;
+        transform: translateY(-0.1rem);
+        box-shadow: 0 0.5rem 1rem rgba($color-black, .2);
+    }
+
+    &--white {
+        background-color: $color-white;
+        color: $color-grey-dark;
+
+        &::after {
+            background-color: $color-white;
+        }
+    }
+
+    &--green {
+        background-color: $color-primary;
+        color: $color-white;
+
+        &::after {
+            background-color: $color-primary;
+        }
+    }
+
+    /* this is the effecet when we hover over the button making many layers of buttons */ 
+    /* in order for the after pseudo element to work we have to specify 2 properties:
+    content: & display: */
+    &::after {
+        content: "";
+        /* we will create the exact same button that we already have and it's going to behave like differetn layers */
+        display: inline-block;
+        /* the :after pseudo element is treated like a child of the initial btn element, so when we
+        specify 100% of the height and width we mean of the initial btn */
+        height: 100%;
+        width: 100%;
+        border-radius: 10rem;
+        /* we're putting it behind our initial btn. The absolute position needs to 
+        have a reference. The reference is the first element with the relative position
+        that it can find. That's why we're gonna set the position of the initial btn to 
+        relative. */
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        z-index: -1;
+
+        transition: all .4s;
+    }
+
+    &--animated {
+        animation: moveInBottom .5s ease-out .75s;
+        animation-fill-mode: backwards;
+    }
+}
+
+.btn-text {
+    &:link,
+    &:visited {
+        font-size: $default-font-size;
+        color: $color-primary;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: 1px solid $color-primary;
+        padding: 3px;
+        transition: all .2s;
+    }
+
+    &:hover {
+        background-color: $color-primary;
+        color: $color-white;
+        box-shadow: 0 1rem 2rem rgba($color-black, .15);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        box-shadow: 0 .5rem 1rem rgba($color-black, .15);
+        transform: translateY(0);
+    }
+
+}

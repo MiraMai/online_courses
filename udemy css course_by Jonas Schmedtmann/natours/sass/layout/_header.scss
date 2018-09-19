@@ -1,0 +1,60 @@
+.header {
+    /* 85% of the viewport height */
+    height: 85vh;
+    background-image: linear-gradient(to right bottom, rgba($color-primary-light, 0.8), rgba($color-primary-dark, 0.8)), url(../img/hero-small.jpg);
+    background-size: cover;
+    /* when you scroll down the window the top will not get cropped */
+    background-position: top;
+    position: relative;
+    
+    
+    // *************************** FEATURE QUERY ******************************
+    // the clip path is not supported in all browsers that's why we need to create a support featyre query that will say:
+    // if the browser supports the clip-path property, it will apply it 
+    @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+        height: 95vh;
+    }
+
+
+    // media queries for the background images pointing on the screen resolution and not on the width
+    // 192dpi(dots per inch*) this number is the resolution of the apple screen. It's a good resolution and it's being used as a reference
+    // the resolution of a mobile is 2x so for a background img we multiply the screen width with 2. For example, a 600px width img will need a 1200px width background img.
+    // the 2000px media queries is for the case that the screen is big but has a low resolution. Then the big img should just show in 2000px and above.
+    // the **min-resolution: 192dpi** is not supported in safari(iPhones, iPads, Apple desktops). That's why we are using this property instead **-webkit-min-device-pixel-ratio: 2**. The number 2 means 2x = 2px of the img are being displayed in 1px of the screen. It's approximately the same as 192dpi. It's high resolution screens.
+    // whenever the resolution is higher than 192dpi and the width is more than 600px, or whenever the pixel ratio for apple devices is 2 and the width is more than 600px, or whenever it's bigger that 2000px... then it will switch to the bigger backg img(for testing purposes the img is orange)
+    @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em),/* 600px/16= 37.5em*/ 
+           only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em),
+           only screen and (min-width: 125em)/* 2000px/16= 125em*/ {
+        background-image: linear-gradient(to right bottom, rgba($color-secondary-light, 0.8), rgba($color-secondary-dark, 0.8)), url(../img/hero.jpg);
+    }
+    
+
+    @include respond(phone) {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    }    
+
+    &__logo-box {
+        /* the parent element has to be relative. That means that the parent box(realtive)
+        is where the top and left of this box starts to count */
+        position: absolute;
+        top: 4rem;
+        left: 4rem;
+    }
+
+    &__logo {
+        height: 3.5rem;
+    }
+    
+    &__text-box {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        /* auto kentrarei to text box */
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    
+}

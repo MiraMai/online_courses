@@ -1,0 +1,64 @@
+/* this is a trick because the row has zero pixel height. This happens because all of
+the child elements inside of the row are floated and so the height collapses and becomes zero.
+To solve this we will append a pseudo element after the element which will then clear these floats. */
+@mixin clearfix {
+    &::after {
+        /* we always need to specify the content property, otherwise the pseudo element will not appear on 
+        the page, and we want it empty because we don't want to see this element on the page.
+        Then we also need to display it. Using the display: table; property and value that is the standard version
+        of the clearfix.
+        And then the clear property that actually performs this clearfix: clear: both;. This will vlear both floats(left-right).  */
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+// this mixin is for centering elements
+@mixin absCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+// MEDIA QUERY MANAGER
+
+/*
+
+0 -600PX: Phone
+600- 900px: Tablet portrait
+900- 1200px: Tablet landscape
+[1200- 1800] is where our normal styles apply
+1800px + : Big desktop
+
+$breakpoint arguement choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+1em = 16px
+*/
+@mixin respond($breakpoint) {
+    // if the breakpoint is phone.. 
+    @if $breakpoint == phone {
+        // the @content allows us to pass a block of code into the mixin.
+
+        // the em's will be converted to pixels and will be adapted to the font size that the user set for the browser
+        // look at the font-size in _base.scss, line 13
+        // if sb tries to print out our page the media queries is not applied
+        @media only screen and (max-width: 37.5em) { @content }; //600px
+    }
+    @if $breakpoint == tab-port {
+        @media only screen and (max-width: 56.25em) { @content }; //900px
+    }
+    @if $breakpoint == tab-land {
+        @media only screen and (max-width: 75em) { @content }; //1200px
+    }
+    @if $breakpoint == big-desktop {
+        @media only screen and (min-width: 112.5em) { @content }; //1800px
+    }
+}

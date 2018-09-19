@@ -1,0 +1,51 @@
+/* setting the margin and padding to 0 in all elements and all browsers */
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+
+    /* the line below inherits the box-sizing property that we declaired in 
+    the body element */
+    box-sizing: inherit;
+}
+
+html {
+    // the 62.5% is the default font-size and translates to 1rem
+    // by using rem we will make the entire layout of the webpage dependant on the font-size
+    // so basically this font-size is what defines the size of our entire layout 
+
+    /* so by simply changing the percentage of the font-size ,in the below line , all the rem's 
+    that we have used in all elements will scale up or down according to this font-size */
+    
+    font-size: 62.5%; // 1rem = 10px   10px/16px = 62.5%, I want 1 rem to be 10px, so I divide that with the 16 which is the default to get the percentage
+
+    // go to _mixins.scss to see the media queries
+    @include respond(tab-land) {
+        font-size: 56.25%;  // 1rem = 9px, /16 =56.25%
+    }
+    @include respond(tab-port) {
+        font-size: 50%;  // 1rem = 8px, 8/16 =50% ,  I want 1 rem to be 8px, so I divide that with the 16 which is the default to get the percentage
+    } 
+    @include respond(big-desktop) {
+        font-size: 75%;  // 1rem = 12, 12/16 = 75%
+    }
+}
+
+body {
+    /* it changes the box models so that the margins and paddings are no 
+    longer added to the total width and height of the box*/
+    box-sizing: border-box;
+    padding: 3rem;
+
+    @include respond(tab-port) {
+        padding: 0;
+    } 
+}
+
+::selection {
+    background-color: $color-primary;
+    color: $color-white;
+}
+
+

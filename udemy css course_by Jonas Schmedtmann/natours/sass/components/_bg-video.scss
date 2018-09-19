@@ -1,0 +1,20 @@
+.bg-video {
+    /* this peace of code (and position:relative in the parent element) 
+    is enought to make the element be placed in the same position as the parent */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    opacity: .15;
+    /* because the video was overflowing */
+    overflow: hidden;
+
+    /* this makes the video be exactly the size of the screen while keeping the ratio */
+    &__content {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+}

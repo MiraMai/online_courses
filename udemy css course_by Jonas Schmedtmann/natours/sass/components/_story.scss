@@ -1,0 +1,104 @@
+.story {
+    width: 75%;
+    margin: 0 auto;
+    box-shadow: 0 3rem 6rem rgba($color-black, .1);
+    background-color: rgba($color-white, .6);
+    border-radius: 3px;
+    padding: 6rem;
+    font-size: $default-font-size;
+    padding-left: 9rem;
+    transform: skewX(-12deg);
+
+    @include respond(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 7rem;
+    }
+
+    @include respond(phone) {
+        transform: skewX(0);
+    }
+
+    &__shape {
+        width: 15rem;
+        height: 15rem;
+        float: left;
+        /* in order for this to work the element has to be floated
+        and have defined dimentions
+        (properties: width, height & float) */
+        
+        /* when we have flaoting elements it's best not to mess around with 
+        margins. It's better to add a margin using the transform property */
+        transform: translateX(-3rem) skewX(12deg);
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+
+        @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+            /* this property creates the circle */
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+            /* the shape-outside property defines where the content will flow 
+            AROUND the element. In this case the text get a round shape but not 
+            the element itself. 
+            The property that creates the circle is the clip-path */
+            -webkit-shape-outside: circle(50% at 50% 50%);
+            shape-outside: circle(50% at 50% 50%);
+            border-radius: none;
+        }
+
+        @include respond(phone) {
+            transform: translateX(-3rem) skewX(0);
+        }
+    
+
+    }
+
+    &__img {
+        height: 100%;
+        /* this is centering the image. It moves it to the left 
+        and the scale zooms the image */
+        transform: translateX(-4rem) scale(1.4);
+        backface-visibility: hidden;
+        transition: all .5s;
+    }
+
+    &__text {
+        transform: skewX(12deg);
+
+        @include respond(phone) {
+            transform: skewX(0);
+        }
+    }
+
+    &__caption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* the 20 makes so that the text is placed further on the bottom. 
+        The point is for the text to move to the center when hovered */
+        transform: translate(-50%, 20%);
+        color: $color-white;
+        text-transform: uppercase;
+        font-size: 1.7rem;
+        text-align: center;
+        /* the name doesn't show before we hovr that's why 
+        the opacity is set to 0 */
+        opacity: 0;
+        transition: all .5s;
+        /* this property is to fix a little glitch/movement */
+        backface-visibility: hidden;
+    }
+
+    /* when the story is hovered we want to change the caption */
+    &:hover &__caption {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover &__img {
+        /* the scale zooms the image */
+        transform: translateX(-4rem) scale(1);
+        filter: blur(3px) brightness(80%);
+    }
+}

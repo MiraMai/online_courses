@@ -1,0 +1,226 @@
+.card {
+    /* this to make the card look like coming out when rotating */
+    perspective: 150rem;
+    /* this is for mozzilla */
+    -moz-perspective: 150rem;
+    position: relative;
+    /* we need to specify the height on both parent and child because 
+    otherwise the element will loose it's perspective and that's because 
+    of the relative and absolute positioning */
+    height: 52rem;
+
+    &__side {
+        height: 52rem;
+        transition: all .8s ease;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        /* hidden = hides the back part of an element */
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 3px;
+        /* we are using the overflow property because otherwise the image is
+        overlapping the parent element and therefore the border-radius is not showing */
+        overflow: hidden;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+        &--front {
+            background-color: $color-white;
+        }
+
+        &--back {
+            /* the back side is rotated from the beginning. It's already
+            180deg rotated. When we hover the card, it moves to zero */
+            transform: rotateY(180deg);
+
+            &-1 {
+                background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark);
+            }
+            &-2 {
+                background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark);
+            }
+            &-3 {
+                background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+            }
+        }
+    }
+
+    /* when we hover the card, we want the side to transform. Buy only¨
+    the front side rotetes, because the back side is already rotated(at 180deg) */
+    &:hover &__side--front {
+        /* the minus makes it move to the opposite direction */
+        transform: rotateY(-180deg);
+    }
+
+    &:hover &__side--back {
+        transform: rotateY(0);
+    }
+
+    /* front side styling */
+    &__picture {
+        background-size: cover;
+        height: 23rem;
+        /* we need to blend the two images that we are using as bckground-images 
+        in the lines below */
+        background-blend-mode: screen; 
+        /* so it works in all browsers */
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+
+        &--1 {
+            /* we are using two background-images: the linear gradient and the actual image */
+            background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark), url(../img/nat-5.jpg);
+        }
+        &--2 {
+             /* we count how many levels we want to move upp depending on where 
+            our css file is and not the scss file */
+            background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark), url(../img/nat-6.jpg);
+        }
+        &--3 {
+            background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark), url(../img/nat-7.jpg);
+        }
+
+    }
+
+    &__heading {
+        font-size: 2.8rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        text-align: right;
+        color: $color-white;
+        position: absolute;
+        top: 12rem;
+        right: 2rem;
+        width: 75%;
+
+    }
+
+    &__heading-span {
+        padding: 1rem 1.5rem;
+        /* the padding is not applied where we have a line break, that's 
+        why we need this property */
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+
+        &--1 {
+            background-image: linear-gradient(to right bottom, rgba($color-secondary-light, .85), rgba($color-secondary-dark, .85));
+        }
+        &--2 {
+            background-image: linear-gradient(to right bottom, rgba($color-tertiary-light, .85), rgba($color-tertiary-dark, .85));
+        }
+        &--3 {
+            background-image: linear-gradient(to right bottom, rgba($color-primary-light, .85), rgba($color-primary-dark, .85));
+        }
+    }
+
+    &__details {
+        padding: 3rem;
+        
+        ul {
+            list-style: none;
+            width: 80%;
+            margin: 0 auto;
+
+            li {
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+
+                /* the li elements that are not the last child */
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color-grey-light-2;
+                }
+            }
+        }
+    }
+
+    // back side styling
+    &__cta {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        text-align: center;
+    }
+
+    &__price-box {
+        text-align: center;
+        color: $color-white;
+        margin-bottom: 8rem;
+    }
+
+    &__price-only {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+
+    &__price-value {
+        font-size: 6rem;
+        font-weight: 100;
+    }
+
+    
+// ************************** MEDIA QUERIES FOR THE CARDS ************************************** 
+    //@include respond(tab-port) {
+
+    // we are not using include here because we cannot add a second condition. So we are using the original media query instead that is in the mixins
+    // whenever the device screen is smaller than 56.2em OR whenever we are using a device that we cannot hover(that uses touch as the primary input, we want only the back part of the card to show
+    // the opposite is hover: hover
+    @media only screen and (max-width: 56.25em), only screen and (hover: none) {
+       
+        height: auto;
+        border-radius: 3px;
+        background-color: $color-white;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+        &__side {
+            height: auto;
+            position: relative;
+            box-shadow: none;
+       
+
+            &--back {
+                /* the back side is rotated from the beginning. It's already
+                180deg rotated. When we hover the card, it moves to zero */
+                transform: rotateY(0);
+                clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+
+        /* when we hover the card, we want the side to transform. Buy only¨
+        the front side rotetes, because the back side is already rotated(at 180deg) */
+        &:hover &__side--front {
+            /* the minus makes it move to the opposite direction */
+            transform: rotateY(0);
+        }
+
+        &__details {
+            padding: 1rem 3rem;
+        }
+
+        // back side styling
+        &__cta {
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: translate(0);
+            width: 100%;
+            padding: 7rem 4rem 4rem 4rem 4rem;
+        }
+
+        &__price-box {
+            margin-bottom: 3rem;
+            margin-top: 3rem;
+        }
+
+
+        &__price-value {
+            font-size: 4rem;
+        }
+
+        }
+    }
